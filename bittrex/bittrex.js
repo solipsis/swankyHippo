@@ -3,16 +3,24 @@ const rp = require('request-promise')
 
 const markets = ['BTC-ETH','BTC-DASH','BTC-LTC']
 
-let process = (coinData) => {
-    let {BTC_ETH, BTC_DASH, BTC_LTC} = coinData
-    let update = {
-        'ETH': BTC_ETH,
-        'DASH': BTC_DASH,
-        'LTC': BTC_LTC
-    }
+let updateEmitter;
 
-    console.log(update)
-}
+// const bittrex = (emitter) => {
+//     this.emitter = emitter
+// }
+
+// let process = (coinData) => {
+//     let {BTC_ETH, BTC_DASH, BTC_LTC} = coinData
+//     let update = {
+//         'bittrex': {
+//             'ETH': BTC_ETH,
+//             'DASH': BTC_DASH,
+//             'LTC': BTC_LTC
+//         }
+//     }
+
+//     console.log(update)
+// }
 
 let parse = (response) => {
     return response.result.Ask
@@ -23,9 +31,11 @@ let fetchCoinData = async () => {
     let dash = fetch('BTC-DASH')
     let ltc = fetch('BTC-LTC')
     return {
-        'ETH': await eth,
-        'DASH': await dash,
-        'LTC': await ltc
+        'bittrex': {
+            'ETH': await eth,
+            'DASH': await dash,
+            'LTC': await ltc
+        }
     }
 }
 
@@ -37,21 +47,16 @@ const fetch = (coin) => {
     return rp(options).then(parse)
 }
 
-let blah = async () => {
-    let coindater =  await fetchCoinData();
-   // console.log(coindater.map())
-console.log(coindater)
-
+let connect = (emitter) => {
+    
+    console.log('connecting to Bittrex')
+    setInterval(async () => {
+        let coindater = await fetchCoinData();
+        emitter.emit('update', coindater)
+    }, 5000);
 }
-blah()
 
-let connect = () => {
-    console.log('Connecting to poloniex')
-    setInterval(() => {
-        rp(options)
-            .then(() => {
-                console.log("Polo ticker")
-            }, (err) => console.log(err))
-    }, 3000)
+module.exports = {
+    connect
 }
 
