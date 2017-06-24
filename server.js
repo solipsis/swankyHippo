@@ -6,9 +6,6 @@ const { EventEmitter } = require('events');
 const updateEmitter = new EventEmitter();
 const app = express();
 
-app.listen(3000, () => {
-    console.log('Server is up on port 3000');
-});
 
 updateEmitter.on('update', (coinData) => {
     console.log(coinData);
@@ -72,3 +69,18 @@ const outputTable = (bestAskForCoin) => {
     console.log('')
     console.log('')
 }
+
+app.get('/all', (req, res) => {
+    res.setHeader('Content-Type', 'application/json')
+    res.send(JSON.stringify([...priceMap], undefined, 2));
+});
+
+app.get('/best', (req, res) => {
+    res.setHeader('Content-Type', 'application/json')
+    res.send(JSON.stringify([...getBestAskForCoins()], undefined, 2));
+});
+
+
+app.listen(3000, () => {
+    console.log('Server is up on port 3000');
+});
