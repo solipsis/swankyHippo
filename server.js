@@ -2,10 +2,14 @@ const express = require('express');
 const poloniex = require('./poloniex/poloniex');
 const bittrex = require('./bittrex/bittrex');
 const btc_e = require('./btc_e/btc_e');
+const hbs = require('hbs');
 const { EventEmitter } = require('events');
 
 const updateEmitter = new EventEmitter();
 const app = express();
+app.set('view engine', 'hbs');
+app.use('/style',express.static( 'style'));
+
 
 
 updateEmitter.on('update', (coinData) => {
@@ -70,6 +74,10 @@ const outputTable = (bestAskForCoin) => {
     console.log('')
     console.log('')
 }
+
+app.get('/', (req, res) => {
+    res.render('index.hbs', {});
+})
 
 app.get('/all', (req, res) => {
     res.setHeader('Content-Type', 'application/json')
