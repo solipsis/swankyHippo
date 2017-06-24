@@ -23,8 +23,8 @@ let bestAskForCoin = new Map();
 
 const applyUpdate = (update) => {
     priceMap.set(update.exchange, update.priceInfo);
-    console.log("Current map: ", priceMap);
-    getBestAskForCoins();
+  //  console.log("Current map: ", priceMap);
+    outputTable(getBestAskForCoins());
 };
 
 const getBestAskForCoins = () => {
@@ -34,14 +34,34 @@ const getBestAskForCoins = () => {
 
     for (let [exchange, priceInfo] of priceMap.entries()) {
         for (let coin of Object.keys(priceInfo)) {
-            console.log("COIN: ", coin)
-            if (!bestAskPerCoin[coin] || priceInfo[coin] < bestAskPerCoin[coin].ask) {
+            if (!bestAskPerCoin.get(coin) || priceInfo[coin] < bestAskPerCoin.get(coin).ask) {
                 bestAskPerCoin.set(coin, {
                     exchange: exchange,
                     ask: priceInfo[coin],
                 });
             }
         }
-        console.log("BEST ASK PER COIN ", bestAskPerCoin)
     }
+    
+    return bestAskPerCoin;
+}
+
+const outputTable = (bestAskForCoin) => {
+    console.log('')
+    console.log('')
+    console.log('*****************************************************')
+    for (let [exchange, priceInfo] of priceMap.entries()) {
+        console.log(`* ${exchange} | `);
+        for (let coin of Object.keys(priceInfo)) {
+            if (bestAskForCoin.get(coin).exchange == exchange) {
+                console.log(`   coin: ${coin} ask: ${priceInfo[coin]} **Best Value**`)
+            } else {
+                console.log(`   coin: ${coin} ask: ${priceInfo[coin]} `)
+            }
+        }
+        console.log('-------------------------------------------------')
+    }
+    console.log('*****************************************************')
+    console.log('')
+    console.log('')
 }
