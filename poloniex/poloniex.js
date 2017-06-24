@@ -22,12 +22,19 @@ const process = (coinData) => {
 
 }
 
+const fetchData = async () => {
+    const coinData = await rp(options);
+    return process(coinData);
+}
+
 
 const connect = (emitter) => {
     console.log('Connecting to poloniex');
-    setInterval(async () => {
-        const results = await rp(options);
-        emitter.emit('update', process(results));
+    
+    setInterval( () => {
+        fetchData()
+            .then( coinData => emitter.emit('update', coinData))
+            .catch( err => console.log('Error connecting to poloniex. Retrying ...'))  
     }, 5000);
 };
 

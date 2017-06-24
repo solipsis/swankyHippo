@@ -18,12 +18,19 @@ const process = (coinData) => {
     };
 };
 
+const fetchData = async () => {
+    const results = await rp(options);
+    return process(results);
+}
+
 
 const connect = (emitter) => {
     console.log('Connecting to btc-e');
-    setInterval(async () => {
-        const results = await rp(options);
-        emitter.emit('update', process(results));
+    setInterval(() => {
+            fetchData()
+                .then( (coinData) => { emitter.emit('update', coinData)})
+                .catch( (e) => { console.log('failed to fetch btc_e data. Retrying...') });
+            
     }, 5000);
 };
 

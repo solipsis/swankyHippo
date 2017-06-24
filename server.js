@@ -21,7 +21,6 @@ let bestAskForCoin = new Map();
 
 const applyUpdate = (update) => {
     priceMap.set(update.exchange, update.priceInfo);
-  //  console.log("Current map: ", priceMap);
     outputTable(getBestAskForCoins());
 };
 
