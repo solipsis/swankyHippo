@@ -32,7 +32,7 @@ const connect = (emitter) => {
     setInterval(async () => {
         const coinData = await fetchCoinData();
         emitter.emit('update', coinData);
-    }, 5000);
+    }, 3000);
 };
 
 module.exports = {

@@ -28,7 +28,7 @@ const connect = (emitter) => {
     setInterval(async () => {
         const results = await rp(options);
         emitter.emit('update', process(results));
-    }, 5000);
+    }, 3000);
 };
 
 module.exports = {
