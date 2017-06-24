@@ -1,6 +1,7 @@
 const express = require('express');
 const poloniex = require('./poloniex/poloniex');
 const bittrex = require('./bittrex/bittrex');
+const btc_e = require('./btc_e/btc_e');
 const { EventEmitter } = require('events');
 
 const updateEmitter = new EventEmitter();
@@ -13,6 +14,7 @@ updateEmitter.on('update', (coinData) => {
 });
 poloniex.connect(updateEmitter);
 bittrex.connect(updateEmitter);
+btc_e.connect(updateEmitter);
 
 const priceMap = new Map();
 let bestAskForCoin = new Map();
