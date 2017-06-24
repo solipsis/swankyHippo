@@ -12,10 +12,16 @@ app.listen(3000, () => {
 
 updateEmitter.on('update', (coinData) => {
     console.log(coinData);
+    applyUpdate(coinData);
 });
 poloniex.connect(updateEmitter);
 bittrex.connect(updateEmitter);
 
-let applyUpdate = () => {
+const priceMap = {}
 
-}
+const applyUpdate = (update) => {
+    priceMap[update.exchange] = update.priceInfo;
+    console.log("Current map: ", priceMap);
+
+    // apply map/for each function to extract best rate for each coin
+};
