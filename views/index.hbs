@@ -12,79 +12,23 @@
             <title>Swanky Hippo</title>
     </head>
     <body>
-        This is test text
         <div class="ui three column doubling stackable container">
+            {{this}}
+             ***********************
+            {{bittrex}}
+            ^^^^^^^^^^
+            {{bittrex.ETH}}
             <div class="ui huge header">Poloniex</div>
             <div class="ui raised secondary segment">
-            <div class="ui cards centered">          
-                <div class="card">
-                    <div class="content">
-                        <div class="header">       
-                            Ethereum
-                        </div>
-                        <div class="ui blue ribbon label" id="te">Best Value</div>
-                            <div class="description">
-                                Symbol: eth\n
-                                Lowest Ask: .93892840
-                            </div>
-                        
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="content">
-                        <div class="header">       
-                            Dash
-                        </div>
-                        <div class="ui green ribbon label" id="te">Best Value</div>
-                        <div class="description">
-                            Symbol: Dash\n
-                            Lowest Ask: .93892840
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="content">
-                        <div class="header">       
-                            Litecoin
-                        </div>
-                        
-                        <div class="description">
-                            Symbol: Ltc\n
-                            Lowest Ask: .34582
-                        </div>
-                    </div>
-                </div>
+            <div class="ui cards centered">
+                {{bittrex.ETH}}          
+                {{> card data=bittrex.ETH}}
+                {{> card data=bittrex.DASH}}
+                {{> card data=bittrex.LTC}}
             </div>
             </div>
 
-            <div class="ui cards">          
-                <div class="card">
-                    <div class="content">
-                        <div class="header">       
-                            Ethereum
-                        </div>
-                        <div class="ui blue ribbon label" id="te">Best Value</div>
-                        <div class="description">
-                            Symbol: eth\n
-                            Lowest Ask: .93892840
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="content">
-                        <div class="header">       
-                            Dash
-                        </div>
-                        <div class="ui green ribbon label" id="te">Best Value</div>
-                        <div class="description">
-                            Symbol: Dash\n
-                            Lowest Ask: .93892840
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
+        
 
         </div>
     </body>

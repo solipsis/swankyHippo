@@ -7,6 +7,8 @@ const { EventEmitter } = require('events');
 
 const updateEmitter = new EventEmitter();
 const app = express();
+
+hbs.registerPartials(__dirname + '/views/partials')
 app.set('view engine', 'hbs');
 app.use('/style',express.static( 'style'));
 
@@ -26,6 +28,8 @@ let bestAskForCoin = new Map();
 const applyUpdate = (update) => {
     priceMap.set(update.exchange, update.priceInfo);
     outputTable(getBestAskForCoins());
+
+    console.log("MMMAAPu", priceMap)
 };
 
 const getBestAskForCoins = () => {
@@ -76,7 +80,14 @@ const outputTable = (bestAskForCoin) => {
 }
 
 app.get('/', (req, res) => {
-    res.render('index.hbs', {});
+    if (priceMap.size == 3) {
+        res.render('index.hbs', 
+        {
+            bittrex: priceMap.get('bittrex'),
+            poloniex: priceMap.get('poloniex'),
+            btc_e: priceMap.get('btc-e')
+        });
+    }
 })
 
 app.get('/all', (req, res) => {
@@ -93,3 +104,5 @@ app.get('/best', (req, res) => {
 app.listen(3000, () => {
     console.log('Server is up on port 3000');
 });
+
+//hbs.registerHelper()
