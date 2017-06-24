@@ -3,7 +3,6 @@ const poloniex = require('./poloniex/poloniex');
 const bittrex = require('./bittrex/bittrex');
 const { EventEmitter } = require('events');
 
-const coins = ['ETH', 'DASH', 'LTC'];
 const updateEmitter = new EventEmitter();
 const app = express();
 
@@ -53,10 +52,18 @@ const outputTable = (bestAskForCoin) => {
     for (let [exchange, priceInfo] of priceMap.entries()) {
         console.log(`* ${exchange} | `);
         for (let coin of Object.keys(priceInfo)) {
+
+            // add some padding to make the table pretty
+            const paddedCoin = String("     " + coin).slice(-5);
+            const paddedAsk = String("        " + priceInfo[coin].toPrecision(5)).slice(-8);
+
+            // if not the best value show potential loss
             if (bestAskForCoin.get(coin).exchange == exchange) {
-                console.log(`   coin: ${coin} ask: ${priceInfo[coin]} **Best Value**`)
+                console.log(`   coin: ${paddedCoin}   ask(BTC): ${paddedAsk} **Best Value**`)
             } else {
-                console.log(`   coin: ${coin} ask: ${priceInfo[coin]} `)
+                const BTC = 20; // how many bitcoins to convert
+                const loss = (priceInfo[coin] * BTC) - (bestAskForCoin.get(coin).ask * BTC);
+                console.log(`   coin: ${paddedCoin}   ask(BTC): ${paddedAsk} potential_loss(${BTC}BTC) = ~${loss.toPrecision(5)} ${coin} `)
             }
         }
         console.log('-------------------------------------------------')
