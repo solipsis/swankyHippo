@@ -19,9 +19,9 @@ to view a graphical representation of the results
 API:
 There is a simple api you can query for results returned in JSON
 
-###GET 'localhost:{port}/all':
+### GET 'localhost:{port}/all':
      will return all of the price data for the tracked coins 
 
-###GET 'localhost:{port}/best':
+### GET 'localhost:{port}/best':
     will return the best price for each pair and which exchange
     that price can be found at
