@@ -15,7 +15,6 @@ app.use('/style',express.static( 'style'));
 
 
 updateEmitter.on('update', (coinData) => {
-    console.log(coinData);
     applyUpdate(coinData);
 });
 poloniex.connect(updateEmitter);
@@ -28,8 +27,6 @@ let bestAskForCoin = new Map();
 const applyUpdate = (update) => {
     priceMap.set(update.exchange, update.priceInfo);
     outputTable(getBestAskForCoins());
-
-    console.log("MMMAAPu", priceMap)
 };
 
 const getBestAskForCoins = () => {
@@ -80,21 +77,24 @@ const outputTable = (bestAskForCoin) => {
 }
 
 app.get('/', (req, res) => {
-    if (priceMap.size == 3) {
-        
+    
         res.render('index.hbs', 
         {
             bittrex: cardDataForExchange('bittrex'),
             poloniex: cardDataForExchange('poloniex'),
             btc_e: cardDataForExchange('btc-e')
         });
-    }
+    
 })
 
 const cardDataForExchange = (exchange) => {
     cardData = {};
     const bestAsk = getBestAskForCoins();
     priceData = priceMap.get(exchange);
+    if(!priceData) {
+        return;
+    }
+
     for (let coin of Object.keys(priceData)) {
 
         const BTC = 20; // how many bitcoins to convert
