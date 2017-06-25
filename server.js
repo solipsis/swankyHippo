@@ -110,9 +110,11 @@ app.get('/', (req, res) => {
  * @return {Object} cardData map of coin symbol to card info
  */
 const cardDataForExchange = (exchange) => {
+    
     cardData = {};
     const bestAsk = getBestAskForCoins();
 
+    // if we don't have data for this exchange return
     priceData = priceMap.get(exchange);
     if(!priceData) {
         return;
