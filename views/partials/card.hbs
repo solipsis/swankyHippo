@@ -1,15 +1,16 @@
 <div class="card">
     <div class="content">
         <div class="header">
-            {{this}}       
-            {{this.data}}
+            {{name}}
         </div>
+        {{#if data.best}}
         <div class="ui blue ribbon label" id="te">
             Best Value
         </div>
+        {{/if}}
         <div class="description">
-            <p>Lowest Ask: {{data}}</p>
-            <p>Potential Loss (20BTC): ~.004 DASH</p>
+            <p>Lowest Ask: {{data.ask}}</p>
+            <p>Estimated Loss (20BTC):  {{data.loss}}</p>
         </div>  
     </div>
 </div>

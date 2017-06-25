@@ -13,22 +13,31 @@
     </head>
     <body>
         <div class="ui three column doubling stackable container">
-            {{this}}
-             ***********************
-            {{bittrex}}
-            ^^^^^^^^^^
-            {{bittrex.ETH}}
+            
+            <div class="ui huge header">Bittrex</div>
+            <div class="ui raised secondary segment">
+                <div class="ui cards centered">          
+                    {{> card data=bittrex.ETH name='Ethereum'}}
+                    {{> card data=bittrex.DASH name='Dash'}}
+                    {{> card data=bittrex.LTC name='Litecoin'}}
+                </div>
+            </div>
             <div class="ui huge header">Poloniex</div>
             <div class="ui raised secondary segment">
-            <div class="ui cards centered">
-                {{bittrex.ETH}}          
-                {{> card data=bittrex.ETH}}
-                {{> card data=bittrex.DASH}}
-                {{> card data=bittrex.LTC}}
+                <div class="ui cards centered">          
+                    {{> card data=poloniex.ETH name='Ethereum'}}
+                    {{> card data=poloniex.DASH name='Dash'}}
+                    {{> card data=poloniex.LTC name='Litecoin'}}
+                </div>
             </div>
+            <div class="ui huge header">BTC-E</div>
+            <div class="ui raised secondary segment">
+                <div class="ui cards centered">          
+                    {{> card data=btc_e.ETH name='Ethereum'}}
+                    {{> card data=btc_e.DASH name='Dash'}}
+                    {{> card data=btc_e.LTC name='Litecoin'}}
+                </div>
             </div>
-
-        
 
         </div>
     </body>

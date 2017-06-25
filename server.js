@@ -81,14 +81,38 @@ const outputTable = (bestAskForCoin) => {
 
 app.get('/', (req, res) => {
     if (priceMap.size == 3) {
+        
         res.render('index.hbs', 
         {
-            bittrex: priceMap.get('bittrex'),
-            poloniex: priceMap.get('poloniex'),
-            btc_e: priceMap.get('btc-e')
+            bittrex: cardDataForExchange('bittrex'),
+            poloniex: cardDataForExchange('poloniex'),
+            btc_e: cardDataForExchange('btc-e')
         });
     }
 })
+
+const cardDataForExchange = (exchange) => {
+    cardData = {};
+    const bestAsk = getBestAskForCoins();
+    priceData = priceMap.get(exchange);
+    for (let coin of Object.keys(priceData)) {
+
+        const BTC = 20; // how many bitcoins to convert
+        const loss = ((priceData[coin] * BTC) - (bestAsk.get(coin).ask * BTC)).toPrecision(4);
+
+        cardData[coin] = {
+            ask: priceData[coin],
+            best: bestAsk.get(coin).exchange == exchange,
+            loss: String(loss + ` ${coin}`),
+        }
+       
+        //cardData[coin] = coinData;
+         
+    }
+    console.log(cardData);
+    return cardData;
+
+}
 
 app.get('/all', (req, res) => {
     res.setHeader('Content-Type', 'application/json')
