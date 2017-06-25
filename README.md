@@ -1,7 +1,13 @@
 # swankyHippo
 
 Setup the project by running 'npm install' in the root directory
+
+If you are using Node version >= 8 you can
 run 'server.js' with nodejs to start the application
+
+Else run 'npm run build' followed by 'npm run serve'
+
+Tests can be run by 'npm run test'
 
 you can set a port for the server by setting a environt variable of name 'port' to the desired port
 if no port is specified the server will start on port: 3000
