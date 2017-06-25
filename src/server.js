@@ -1,9 +1,11 @@
+require("babel-core/register");
+require("babel-polyfill");
 const express = require('express');
 const poloniex = require('./poloniex/poloniex');
 const bittrex = require('./bittrex/bittrex');
 const btc_e = require('./btc_e/btc_e');
 const hbs = require('hbs');
-const output = require('./output/output')
+const output = require('./output/output');
 const { EventEmitter } = require('events');
 
 const port = process.env.PORT || 3000
@@ -11,9 +13,9 @@ const updateEmitter = new EventEmitter();
 const app = express();
 
 // set up view engine and serve style files
-hbs.registerPartials(__dirname + '/views/partials')
+hbs.registerPartials(__dirname + '/../views/partials');
 app.set('view engine', 'hbs');
-app.use('/style', express.static('style'));
+app.use(express.static('style'));
 
 
 // subscribe to the update event
@@ -52,7 +54,7 @@ const getBestAskForCoins = () => {
       // if its the first one we find or its lowest price so far
       if (!bestAskPerCoin.get(coin) || priceInfo[coin] < bestAskPerCoin.get(coin).ask) {
         bestAskPerCoin.set(coin, {
-          exchange: exchange,
+          exchange,
           ask: priceInfo[coin],
         });
       }

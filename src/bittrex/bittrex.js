@@ -29,17 +29,18 @@ const fetch = async (coin) => {
  * @return {Object} Dictionary of coin symbol to its price
  */
 const fetchCoinData = async () => {
-  const ethP = fetch('BTC-ETH');
-  const dashP = fetch('BTC-DASH');
-  const ltcP = fetch('BTC-LTC');
+  const eth = fetch('BTC-ETH');
+  const dash = fetch('BTC-DASH');
+  const ltc = fetch('BTC-LTC');
 
-  [eth, dash, ltc] = await Promise.all([ethP, dashP, ltcP]);
+  const p = await Promise.all([eth, dash, ltc]);
+
   return {
     exchange: 'bittrex',
     priceInfo: {
-      ETH: eth,
-      DASH: dash,
-      LTC: ltc,
+      ETH: p[0],
+      DASH: p[1],
+      LTC: p[2],
     },
   };
 };
@@ -54,7 +55,7 @@ const connect = (emitter) => {
   setInterval(() => {
     fetchCoinData()
       .then(coinData => emitter.emit('update', coinData))
-      .catch(() => console.log('error fetching data for bittrex. Retrying...'));
+      .catch((e) => console.log(e,'error fetching data for bittrex. Retrying...'));
   }, 5000);
 };
 

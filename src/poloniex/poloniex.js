@@ -63,4 +63,6 @@ const connect = (emitter) => {
 
 module.exports = {
   connect,
+  parsePrice,
+  process,
 };
