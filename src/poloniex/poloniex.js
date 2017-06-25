@@ -43,6 +43,7 @@ const options = {
  */
 const fetchData = async () => {
   const coinData = await rp(options);
+  console.log(coinData)
   return process(coinData);
 };
 

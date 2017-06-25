@@ -3,7 +3,7 @@
 Setup the project by running 'npm install' in the root directory
 
 If you are using Node version >= 8 you can
-run 'server.js' with nodejs to start the application
+run 'src/server.js' with nodejs to start the application
 
 Else run 'npm run build' followed by 'npm run serve'
 
