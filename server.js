@@ -8,12 +8,13 @@ const { EventEmitter } = require('events');
 const updateEmitter = new EventEmitter();
 const app = express();
 
+// set up view engine and serve style files
 hbs.registerPartials(__dirname + '/views/partials')
 app.set('view engine', 'hbs');
 app.use('/style',express.static( 'style'));
 
 
-
+// subscribe to the update event
 updateEmitter.on('update', (coinData) => {
     applyUpdate(coinData);
 });
@@ -24,11 +25,19 @@ btc_e.connect(updateEmitter);
 const priceMap = new Map();
 let bestAskForCoin = new Map();
 
+/**
+ * Update the price map
+ * @param {Object} update containing an exchange and price info
+ */
 const applyUpdate = (update) => {
     priceMap.set(update.exchange, update.priceInfo);
     outputTable(getBestAskForCoins());
 };
 
+/**
+ * Calculates which exchange has the best price for each coin
+ * @return {Map} map of coin symbol to price and exchange
+ */
 const getBestAskForCoins = () => {
     
     // map of coin to {exchange, ask}
@@ -48,6 +57,10 @@ const getBestAskForCoins = () => {
     return bestAskPerCoin;
 }
 
+/**
+ * Outputs a table of all price data to the console
+ * @param {Map} bestAskForCoin a map of a coin symbol to its best price 
+ */
 const outputTable = (bestAskForCoin) => {
     console.log('')
     console.log('')
@@ -66,7 +79,7 @@ const outputTable = (bestAskForCoin) => {
             } else {
                 const BTC = 20; // how many bitcoins to convert
                 const loss = (priceInfo[coin] * BTC) - (bestAskForCoin.get(coin).ask * BTC);
-                console.log(`   coin: ${paddedCoin}   ask(BTC): ${paddedAsk} potential_loss(${BTC}BTC) = ~${loss.toPrecision(5)} ${coin} `)
+                console.log(`   coin: ${paddedCoin}   ask(BTC): ${paddedAsk} worse_deal_by: ~${loss.toPrecision(5)} ${coin} `)
             }
         }
         console.log('-------------------------------------------------')
@@ -76,6 +89,9 @@ const outputTable = (bestAskForCoin) => {
     console.log('')
 }
 
+/**
+ * Serves up the landing page with price info
+ */
 app.get('/', (req, res) => {
     
         res.render('index.hbs', 
@@ -87,9 +103,16 @@ app.get('/', (req, res) => {
     
 })
 
+/**
+ * Formats price data for an exchange into a Format
+ * better for the template engine
+ * @param {String} exchange which exchange to create cards for
+ * @return {Object} cardData map of coin symbol to card info
+ */
 const cardDataForExchange = (exchange) => {
     cardData = {};
     const bestAsk = getBestAskForCoins();
+
     priceData = priceMap.get(exchange);
     if(!priceData) {
         return;
@@ -104,29 +127,30 @@ const cardDataForExchange = (exchange) => {
             ask: priceData[coin],
             best: bestAsk.get(coin).exchange == exchange,
             loss: String(loss + ` ${coin}`),
-        }
-       
-        //cardData[coin] = coinData;
-         
-    }
-    console.log(cardData);
+        };         
+    };
     return cardData;
+};
 
-}
-
+/**
+ * Returns all the price information as a json payload
+ * @return {JSON} price data
+ */
 app.get('/all', (req, res) => {
     res.setHeader('Content-Type', 'application/json')
     res.send(JSON.stringify([...priceMap], undefined, 2));
 });
 
+/**
+ * Returns the exchange and price of the best deal for each coin
+ * @return {JSON} best price data
+ */
 app.get('/best', (req, res) => {
     res.setHeader('Content-Type', 'application/json')
     res.send(JSON.stringify([...getBestAskForCoins()], undefined, 2));
 });
 
-
+// start listening on port 3000
 app.listen(3000, () => {
     console.log('Server is up on port 3000');
 });
-
-//hbs.registerHelper()
