@@ -13,8 +13,9 @@ you can set a port for the server by setting a environt variable of name 'PORT' 
 if no port is specified the server will start on port: 3000
 
 You can watch the console for updates every time an exchange
-sends back an update or you can visit localhost:{port}/ in your browser
-to view a graphical representation of the results
+sends back an update or you can visit 
+### localhost:{port}/ 
+in your browser to view a graphical representation of the results
 
 API:
 There is a simple api you can query for results returned in JSON
