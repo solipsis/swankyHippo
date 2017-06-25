@@ -1,5 +1,5 @@
-require("babel-core/register");
-require("babel-polyfill");
+require('babel-core/register');
+require('babel-polyfill');
 const express = require('express');
 const poloniex = require('./poloniex/poloniex');
 const bittrex = require('./bittrex/bittrex');
@@ -8,7 +8,7 @@ const hbs = require('hbs');
 const output = require('./output/output');
 const { EventEmitter } = require('events');
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 const updateEmitter = new EventEmitter();
 const app = express();
 
@@ -36,18 +36,19 @@ const priceMap = new Map();
 const applyUpdate = (update) => {
   priceMap.set(update.exchange, update.priceInfo);
 
+
   // rerender the output table
   output.outputTable(priceMap, getBestAskForCoins());
 };
 
 /**
  * Calculates which exchange has the best price for each coin
+ * @param {Map} map of all price data
  * @return {Map} map of coin symbol to price and exchange
  */
 const getBestAskForCoins = () => {
-
   // map of coin to {exchange, ask}
-  let bestAskPerCoin = new Map();
+  const bestAskPerCoin = new Map();
 
   for (let [exchange, priceInfo] of priceMap.entries()) {
     for (let coin of Object.keys(priceInfo)) {
@@ -62,7 +63,7 @@ const getBestAskForCoins = () => {
   }
 
   return bestAskPerCoin;
-}
+};
 
 
 
@@ -70,15 +71,13 @@ const getBestAskForCoins = () => {
  * Serves up the landing page with price info
  */
 app.get('/', (req, res) => {
-
   const bestAsk = getBestAskForCoins();
   res.render('index.hbs', {
     bittrex: output.cardDataForExchange(priceMap, 'bittrex', bestAsk),
     poloniex: output.cardDataForExchange(priceMap, 'poloniex', bestAsk),
-    btc_e: output.cardDataForExchange(priceMap, 'btc-e', bestAsk)
+    btc_e: output.cardDataForExchange(priceMap, 'btc-e', bestAsk),
   });
-
-})
+});
 
 
 
@@ -87,7 +86,7 @@ app.get('/', (req, res) => {
  * @return {JSON} price data
  */
 app.get('/all', (req, res) => {
-  res.setHeader('Content-Type', 'application/json')
+  res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify([...priceMap], undefined, 2));
 });
 
@@ -96,7 +95,7 @@ app.get('/all', (req, res) => {
  * @return {JSON} best price data
  */
 app.get('/best', (req, res) => {
-  res.setHeader('Content-Type', 'application/json')
+  res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify([...getBestAskForCoins()], undefined, 2));
 });
 
@@ -106,5 +105,7 @@ app.listen(port, () => {
 });
 
 module.exports = {
-    app,
+  app,
+  getBestAskForCoins,
+  priceMap,
 };

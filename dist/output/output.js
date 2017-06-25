@@ -46,7 +46,7 @@ var outputTable = function outputTable(priceMap, bestAskForCoin) {
 
             // In a more robust solution you would probably want to use order books
             // to look at the market depth because a fair amount of slippage could
-            // occur with an order of 20 bitcoins
+            // occur with an order of 20 bitcoins as well as fees
             var loss = priceInfo[coin] * BTC - bestAskForCoin.get(coin).ask * BTC;
             console.log('   coin: ' + paddedCoin + '   ask(BTC): ' + paddedAsk + ' worse_deal_by: ~' + loss.toPrecision(5) + ' ' + coin + ' ');
           }
@@ -114,6 +114,10 @@ function cardDataForExchange(priceMap, exchange, bestAsk) {
       var coin = _step3.value;
 
       var BTC = 20; // how many bitcoins to convert
+
+      // In a more robust solution you would probably want to use order books
+      // to look at the market depth because a fair amount of slippage could
+      // occur with an order of 20 bitcoins as well as fees
       var loss = (priceData[coin] * BTC - bestAsk.get(coin).ask * BTC).toPrecision(4);
 
       cardData[coin] = {

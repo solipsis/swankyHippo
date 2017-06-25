@@ -21,9 +21,9 @@ const process = (coinData) => {
   return {
     exchange: 'btc-e',
     priceInfo: {
-      ETH: eth_btc.sell,
-      DASH: dsh_btc.sell,
-      LTC: ltc_btc.sell,
+      ETH: eth_btc.buy,
+      DASH: dsh_btc.buy,
+      LTC: ltc_btc.buy,
     },
   };
 };
@@ -54,4 +54,5 @@ const connect = (emitter) => {
 
 module.exports = {
   connect,
+  process,
 };

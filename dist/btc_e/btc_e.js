@@ -24,9 +24,9 @@ var process = function process(coinData) {
   return {
     exchange: 'btc-e',
     priceInfo: {
-      ETH: eth_btc.sell,
-      DASH: dsh_btc.sell,
-      LTC: ltc_btc.sell
+      ETH: eth_btc.buy,
+      DASH: dsh_btc.buy,
+      LTC: ltc_btc.buy
     }
   };
 };
@@ -80,5 +80,6 @@ var connect = function connect(emitter) {
 };
 
 module.exports = {
-  connect: connect
+  connect: connect,
+  process: process
 };

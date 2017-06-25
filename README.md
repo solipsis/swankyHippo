@@ -1,4 +1,4 @@
-# swankyHippo
+# Swanky Hippo
 
 Setup the project by running 'npm install' in the root directory
 
