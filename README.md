@@ -3,7 +3,7 @@
 Setup the project by running 'npm install' in the root directory
 
 If you are using Node version >= 8 you can
-run 'src/server.js' with nodejs to start the application
+run 'node src/server.js' from the root directory to start the application
 
 Else run 'npm run build' followed by 'npm run serve' to transpile and run with babel
 
